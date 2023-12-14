@@ -1,18 +1,26 @@
+import { Random } from '@woowacourse/mission-utils';
+
 class Lotto {
   #numbers;
 
-  constructor(numbers) {
-    this.#validate(numbers);
-    this.#numbers = numbers;
+  constructor() {
+    this.#numbers = this.generateLottoNums();
   }
 
-  #validate(numbers) {
-    if (numbers.length !== 6) {
-      throw new Error("[ERROR] 로또 번호는 6개여야 합니다.");
-    }
+  generateLottoNums() {
+    return Random.pickUniqueNumbersInRange(1, 45, 6).sort((a, b) => a - b);
   }
 
-  // TODO: 추가 기능 구현
+  getLottoMatchCount(winningNumbers, bonumNumber) {
+    const count = this.#numbers.filter((number) => winningNumbers.includes(number)).length;
+    const isBonus = winningNumbers.includes(bonumNumber);
+
+    return { count, isBonus };
+  }
+
+  getNums() {
+    return this.#numbers;
+  }
 }
 
 export default Lotto;
